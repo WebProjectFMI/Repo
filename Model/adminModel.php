@@ -23,4 +23,13 @@ function updatePassword($uID, $hash) {
     $stmt->execute();
 }
 
+function extractUsername($uID) {
+    require("dbConfig.php");
+    $stmt = $connection->prepare("SELECT username FROM  Users WHERE uid = :uid;");
+    $stmt->bindParam(':uid', $uID);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['username'];
+}
+
 ?>
