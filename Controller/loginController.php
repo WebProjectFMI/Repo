@@ -8,6 +8,6 @@ function authenticate($username, $password) {
             return extractUserId($username);
         }
     }   
-    return FALSE;
+    return 0;
 }
 ?>
