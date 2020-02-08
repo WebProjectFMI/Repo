@@ -26,5 +26,16 @@ function extractUserHash($username) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['password'];
 }
+
+#To be called after hasUser
+function extractUserId($username) {
+    require("dbConfig.php");
+    $stmt = $connection->prepare("SELECT uid FROM Users WHERE username = :username AND isDeleted = 0;");
+    $stmt->bindParam(':username', $username);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['uid'];
+}
+
 ?>
 
