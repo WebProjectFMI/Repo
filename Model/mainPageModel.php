@@ -25,10 +25,25 @@ function insertEmail($corrID, $fromUID, $subject, $content) {
 }
 
 function extractUnread($uID) {
-    
+        
 }
 
-//  print_r(extractUserCorrs(2));
+# $users is array of uIDs including the creator
+function insertCorr($users, $title) {
+    require '../Model/dbConfig.php';
+    $stmt = $connection->prepare("INSERT INTO Correspondences(title) VALUES(?)");
+    $stmt->execute([$title]);
+    $stmt = $connection->prepare("SELECT MAX(corrID) as max FROM Correspondences WHERE title=?");
+    $stmt->execute([$title]);
+    $corrID = $stmt->fetch(PDO::FETCH_ASSOC)['max'];
+    foreach ($users as $uID) {
+        $stmt = $connection->prepare("INSERT INTO CorrUsers(corrID, uID) VALUES(?, ?)");
+        $stmt->execute([$corrID, $uID]);
+    }
+}
+
+// print_r(extractUserCorrs(2));
 // print_r(extractCorrEmails(1));
-//insertEmail(1, 1, "Блокиран", "Вече си блокиран");
+// insertEmail(1, 1, "Блокиран", "Вече си блокиран");
+// insertCorr([1,2,3], 'NewCorr');
 ?>
