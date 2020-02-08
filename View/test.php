@@ -7,7 +7,7 @@
 
 <?php
 
-require '../model/dbConfig.php';
+require '../Model/dbConfig.php';
 echo "<h2>Hi, I'm a PHP script!</h2>";
 
     $sql = "SELECT username FROM Users;";   
