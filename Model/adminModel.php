@@ -2,7 +2,7 @@
 
 function extractUsers() {
     require("dbConfig.php");
-    $stmt = $connection->prepare("SELECT username, facID, admin, isDeleted FROM Users;");
+    $stmt = $connection->prepare("SELECT uid, username, facID, admin, isDeleted FROM Users;");
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;

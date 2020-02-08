@@ -9,7 +9,6 @@ function getUsers() {
 
 function removeUser($uid) {
     if (hasUserById($uid)) {
-        echo "asdsaasda";
         deleteUser($uid);
     }  
 }
