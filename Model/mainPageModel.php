@@ -47,6 +47,15 @@ function insertCorr($users, $title) {
     }
 }
 
+function belongsUserCorr($uID, $corrID) { //dali user prinadleji na koresp
+    require '../Model/dbConfig.php';
+    $stmt = $connection->prepare("SELECT COUNT(*) as c FROM CorrUsers WHERE corrID=? AND uID=?");
+    $stmt->execute([$corrID, $uID]);
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result["c"];
+}
+
 // print_r(extractUserCorrs(2));
 // print_r(extractCorrEmails(1));
 // insertEmail(1, 1, "Блокиран", "Вече си блокиран");
