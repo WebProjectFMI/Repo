@@ -11,7 +11,7 @@ function extractUserCorrs($uID) {
 
 function extractCorrEmails($corrID) {
     require '../Model/dbConfig.php';
-    $stmt = $connection->prepare("SELECT * FROM Emails WHERE corrID=?");
+    $stmt = $connection->prepare("SELECT * FROM Emails WHERE corrID=? ORDER BY emailID DESC");
     $stmt->execute([$corrID]);
 
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -47,7 +47,7 @@ function insertCorr($users, $title) {
     }
 }
 
-function belongsUserCorr($uID, $corrID) { //dali user prinadleji na koresp
+function belongsUserCorr($uID, $corrID) {
     require '../Model/dbConfig.php';
     $stmt = $connection->prepare("SELECT COUNT(*) as c FROM CorrUsers WHERE corrID=? AND uID=?");
     $stmt->execute([$corrID, $uID]);
@@ -57,7 +57,7 @@ function belongsUserCorr($uID, $corrID) { //dali user prinadleji na koresp
 }
 
 // print_r(extractUserCorrs(2));
-// print_r(extractCorrEmails(1));
+//print_r(extractCorrEmails(1));
 // insertEmail(1, 1, "Блокиран", "Вече си блокиран");
 // insertCorr([1,2,3], 'NewCorr');
 // print_r(extractUnread(3));
