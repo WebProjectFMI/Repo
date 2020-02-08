@@ -1,6 +1,6 @@
 <?php
 
-function extractUserCorrs($uID){
+function extractUserCorrs($uID) {
     require '../Model/dbConfig.php';
     $stmt = $connection->prepare("SELECT * FROM Correspondences JOIN CorrUsers ON Correspondences.corrID=CorrUsers.corrID WHERE CorrUsers.uid=?");
     $stmt->execute([$uID]);
@@ -9,7 +9,7 @@ function extractUserCorrs($uID){
     return $result;
 }
 
-function extractCorrEmails($corrID){
+function extractCorrEmails($corrID) {
     require '../Model/dbConfig.php';
     $stmt = $connection->prepare("SELECT * FROM Emails WHERE corrID=?");
     $stmt->execute([$corrID]);
@@ -18,13 +18,13 @@ function extractCorrEmails($corrID){
     return $result;
 }
 
-function insertEmail($corrID, $fromUID, $subject, $content){
+function insertEmail($corrID, $fromUID, $subject, $content) {
     require '../Model/dbConfig.php';
     $stmt = $connection->prepare("INSERT INTO Emails(corrID, fromUID, subject, content) VALUES(?,?,?,?)");
     $stmt->execute([$corrID, $fromUID, $subject, $content]);
 }
 
-function extractUnread($uID){
+function extractUnread($uID) {
     
 }
 
