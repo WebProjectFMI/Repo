@@ -25,7 +25,12 @@ function insertEmail($corrID, $fromUID, $subject, $content) {
 }
 
 function extractUnread($uID) {
-        
+    require '../Model/dbConfig.php';
+    $stmt = $connection->prepare("SELECT * FROM Emails e JOIN CorrUsers c ON e.corrID=c.corrID WHERE c.uID=?  AND (e.emailID NOT IN (SELECT emailID FROM ReadEmails) OR e.corrID NOT IN (SELECT corrID FROM ReadEmails));");
+    $stmt->execute([$uID]);
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
 }
 
 # $users is array of uIDs including the creator
@@ -46,4 +51,5 @@ function insertCorr($users, $title) {
 // print_r(extractCorrEmails(1));
 // insertEmail(1, 1, "Блокиран", "Вече си блокиран");
 // insertCorr([1,2,3], 'NewCorr');
+// print_r(extractUnread(3));
 ?>
