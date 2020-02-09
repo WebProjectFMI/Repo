@@ -1,11 +1,11 @@
-INSERT INTO Users(username, password, admin) VALUES('admin', 'admin', 1);
-INSERT INTO Users(username, password) VALUES('Pesho', '1234');
-INSERT INTO Users(username, password) VALUES('Gosho', '1234');
-INSERT INTO Users(username, password) VALUES('Losho', '1234');
+INSERT INTO Users(username, password, admin) VALUES('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 1);
+INSERT INTO Users(username, password) VALUES('Pesho', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4');
+INSERT INTO Users(username, password) VALUES('Gosho', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4');
+INSERT INTO Users(username, password) VALUES('Losho', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4');
 
 INSERT INTO Correspondences(title) VALUES('firstCorr');
 INSERT INTO Correspondences(title) VALUES('normal');
-INSERT INTO Correspondences(title) VALUES('psuvni');
+INSERT INTO Correspondences(title) VALUES('losha');
 INSERT INTO Correspondences(title) VALUES('оценка');
 
 INSERT INTO CorrUsers(corrID, uID) VALUES(1, 1);
@@ -28,7 +28,7 @@ INSERT INTO Emails(corrID, fromUID, subject, content)
     VALUES(2, 3, 'Hello everybody', 'Hey all! Jivi i zdravi');
 
 INSERT INTO Emails(corrID, fromUID, subject, content) 
-    VALUES(3, 4, 'Zashto pishesh na vsichki be bunak', 'neshtastno kopilence');
+    VALUES(3, 4, 'Zashto pishesh na vsichki be bunak', 'Shte te susipq');
 
 INSERT INTO Emails(corrID, fromUID, subject, content) 
     VALUES(1, 1, 'Разочераван съм, Лошо', 'Лошо ще те блокирам');
