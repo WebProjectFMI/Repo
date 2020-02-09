@@ -23,13 +23,17 @@
 }
 
 #addCorr {
-    width: 40%;
+    width: 38%;
     background: #ccc;
     border-bottom-right-radius: 25px;
 }
 
 #addCorr #corrSubject, #addCorr #corrUsers, #addCorr #corrCreate{
     display: none;
+}
+
+#addCorr form {
+    display: inline;
 }
 
 #navMain {
