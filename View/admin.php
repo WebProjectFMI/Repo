@@ -1,6 +1,7 @@
 <?php
 require '../Controller/adminController.php';
 session_start();
+
 if (!isset($_SESSION['admin']) || !$_SESSION['admin']) {
     header("Location: ./login.php");
 }
@@ -14,12 +15,19 @@ print <<< HTML
     <meta charset="UTF-8">
     <meta name="viewport"
             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Форма</title>
+    <title>Admin Panel</title>
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 <main>
-    <h1>Admin panel</h1>
+    <header>
+    <div>
+        <form action="./main.php">
+        <button type="submit"> Върни се </button>
+        </form>
+    </div>
+    <h1>Администраторки панел</h1>
+    </header>
 HTML;
 foreach ($users as $user) {
     $username = $user['username'];
@@ -39,12 +47,12 @@ foreach ($users as $user) {
             <div>
                 <form action='./processDelete.php' method='post'>
                 <input type='hidden' name='id' value=${uID} />
-                <button type='submit' $disabled>Delete</button>
+                <button type='submit' $disabled>Изтрий</button>
                 </form>
 
                 <form action='./processReset.php' method='post'>
                 <input type='hidden' name='id' value=${uID} />
-                <button $disabled>Reset password</button>
+                <button $disabled>Нулирай парола</button>
                 </form>
             </div>
         </div>";
