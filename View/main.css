@@ -25,9 +25,10 @@
 #addCorr {
     width: 40%;
     background: #ccc;
+    border-bottom-right-radius: 25px;
 }
 
-#addCorr > #corrSubject, #addCorr > #corrUsers, #addCorr > #corrCreate{
+#addCorr #corrSubject, #addCorr #corrUsers, #addCorr #corrCreate{
     display: none;
 }
 

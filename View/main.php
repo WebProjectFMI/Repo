@@ -57,9 +57,11 @@ print <<< HTML
     </header>
     <div id="addCorr">
         <button type="button" onclick="newCorr()">Нова кореспонденция</button>
-        <input type='text' name='subjectCorr' placeholder='Тема' id='corrSubject' required/>
-        <input type='text' name='usersCorr' placeholder='Потребители' id='corrUsers' required/>
-        <button type="button" onclick="alert('Нова кореспонденция')" id='corrCreate'>&gt</button>
+        <form action="./processAddCorr.php" method='post'>
+            <input type='text' name='subjectCorr' placeholder='Тема' id='corrSubject' required/>
+            <input type='text' name='usersCorr' placeholder='Потребители' id='corrUsers' required/>
+            <input type="submit" id='corrCreate' value='&gt'/>
+        </form>
     </div>
     <div id='navMain'>
     <nav>

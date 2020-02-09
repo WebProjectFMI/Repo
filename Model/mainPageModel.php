@@ -70,9 +70,22 @@ function belongsUserCorr($uID, $corrID) {
     return $result["c"];
 }
 
-// print_r(extractUserCorrs(2));
-//print_r(extractCorrEmails(1));
-// insertEmail(1, 1, "Блокиран", "Вече си блокиран");
-// insertCorr([1,2,3], 'NewCorr');
-// print_r(extractUnread(3));
+function getUserIdsByUsernames($usernames) {
+    require '../Model/dbConfig.php';
+    $usernames = explode(',', $usernames);
+    $names = "";
+    foreach ($usernames as $username) {
+        $names = $names ."'" . trim($username) . "'" .  ',';
+    }
+    $names = substr($names, 0, -1);
+
+    $stmt = $connection->prepare("SELECT uid FROM Users WHERE username IN ($names);");
+    $stmt->execute();
+    $ids = [];
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($results as $result) {
+        array_push($ids, $result['uid']);
+    }
+    return $ids;
+}
 ?>

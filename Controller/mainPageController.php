@@ -21,7 +21,8 @@ function getUnread($uID) {
     return extractUnread($uID);
 }
 
-function createCorr($title, $users) {
-    insertCorr($users, $title);
+function createCorr($title, $usernames) {
+    $ids = getUserIdsByUsernames($usernames);
+    insertCorr($ids, $title);
 }
 ?>
