@@ -3,15 +3,15 @@ require '../Controller/mainPageController.php';
 session_start();
 $uid = $_SESSION['uid'];
 
+$emailID = sendEmail($_POST['corrID'], $uid, $_POST['subject'], $_POST['content']);
+$corrID = $_POST['corrID'];
 if (isset($_FILES['file']['size']) && $_FILES['file']['size'] > 0) {
-    // $targetdir = '../attachments/';   
-    // mkdir('path/to/directory', 0775, true);
-    // // name of the directory where the files should be stored
-    // $targetfile = $targetdir.$_FILES['file']['name'];
-
-    // if (move_uploaded_file($_FILES['file']['tmp_name'], $targetfile))
+    $targetdir = "../attachments/$corrID/" . $emailID;   
+    mkdir($targetdir , 0775, true);
+    $targetfile = $targetdir . '/' . $_FILES['file']['name'];
+ 
+    move_uploaded_file($_FILES['file']['tmp_name'], $targetfile);
 }
 
-sendEmail($_POST['corrID'], $uid, $_POST['subject'], $_POST['content']);
 header("Location: ./main.php");
 ?>

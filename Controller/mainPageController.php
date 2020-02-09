@@ -14,8 +14,9 @@ function getCorrEmails($corrID, $uID) {
 
 function sendEmail($corrID, $fromUID, $subject, $content) {
     if ((is_int($corrID) || ctype_digit($corrID)) && belongsUserCorr($fromUID, $corrID)) {
-        insertEmail($corrID, $fromUID, $subject, $content);
+        return insertEmail($corrID, $fromUID, $subject, $content);
     }
+    return FALSE;
 }
 function getUnread($uID) {
     return extractUnread($uID);
