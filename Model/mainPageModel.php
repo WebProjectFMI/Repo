@@ -40,8 +40,8 @@ function insertEmail($corrID, $fromUID, $subject, $content) {
 
 function extractUnread($uID) {
     require '../Model/dbConfig.php';
-    $stmt = $connection->prepare("SELECT * FROM Emails e JOIN CorrUsers c ON e.corrID=c.corrID WHERE c.uID=?  AND (e.emailID NOT IN (SELECT emailID FROM ReadEmails) OR e.corrID NOT IN (SELECT corrID FROM ReadEmails));");
-    $stmt->execute([$uID]);
+    $stmt = $connection->prepare("SELECT * FROM Emails e JOIN CorrUsers c ON e.corrID=c.corrID WHERE c.uID=?  AND e.emailID NOT IN (SELECT emailID FROM ReadEmails as re WHERE re.corrID=e.corrID AND re.uID=?);");
+    $stmt->execute([$uID, $uID]);
 
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;

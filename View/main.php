@@ -33,9 +33,18 @@ print <<< HTML
 <body>
     <header class="header">
         <div>$username</div>
-        <form action='./processLogout.php' method='post'>
-            <button>Излез</button>
-        </form>
+HTML;
+
+if (isset($_SESSION['admin']) && $_SESSION['admin']) {
+    echo "<form action='./admin.php' method='post'>
+    <button>Администрирай</button>
+    </form>";
+}
+
+print <<< HTML
+    <form action='./processLogout.php' method='post'>
+        <button>Излез</button>
+    </form>
     </header>
     <div id="addCorr">
         <button type="button" onclick="alert('Нова кореспонденция')">Нова кореспонденция</button>
