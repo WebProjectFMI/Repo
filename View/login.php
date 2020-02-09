@@ -5,9 +5,9 @@ if (isset($_SESSION['error'])) {
     $error = $_SESSION['error'];
     unset($_SESSION['error']);
 }
-// if (isset($_SESSION['uid'])) {
-//     header("Location: ./main.php");
-// }
+if (isset($_SESSION['uid'])) {
+    header("Location: ./main.php");
+}
 
 print <<< HTML
 <!DOCTYPE html>
@@ -17,7 +17,7 @@ print <<< HTML
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Форма</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main>
