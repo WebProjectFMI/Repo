@@ -92,6 +92,10 @@ h2 {
     width: 80%;
 }
 
+.email p {
+    word-break: break-all;
+}
+
 .sent {
     align-self: flex-end;
 }

@@ -130,8 +130,8 @@ foreach($emails as $email) {
     $from = $email['username'];
     if($email['fromUID'] == $uID) {
         echo "<div class=\"email sent\">
-                <pre class='subject'>$emailSubject</pre>
-                <pre class='content'>$emailContent</pre>
+                <p class='subject'>$emailSubject</p>
+                <p class='content'>$emailContent</p>
                 <div class='emailSmallInfo'>
                     <div>$emailDatetime</div>
                     <div>$from</div>
@@ -143,8 +143,8 @@ foreach($emails as $email) {
             $from = 'Anonymous';
         }
         echo "<div class=\"email received\">
-                <pre class='subject'>$emailSubject</pre>
-                <pre class='content'>$emailContent</pre>
+                <p class='subject'>$emailSubject</p>
+                <p class='content'>$emailContent</p>
                 <div class='emailSmallInfo'>
                     <div>$emailDatetime</div>
                     <div>$from</div>
