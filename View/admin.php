@@ -26,7 +26,7 @@ print <<< HTML
         <button type="submit"> Върни се </button>
         </form>
     </div>
-    <h1>Администраторки панел</h1>
+    <h1>Администраторски панел</h1>
     </header>
 HTML;
 foreach ($users as $user) {
