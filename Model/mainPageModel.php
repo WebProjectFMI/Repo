@@ -36,6 +36,10 @@ function insertEmail($corrID, $fromUID, $subject, $content) {
     $stmt->execute([$corrID, $fromUID, $subject, $content]);
     $stmt = $connection->prepare("UPDATE Correspondences SET datetimeLast=NOW() WHERE corrID=?");
     $stmt->execute([$corrID]);
+    $stmt = $connection->prepare("SELECT max(emailID) as m FROM Emails WHERE subject=? AND fromUID=? AND corrID=?");
+    $stmt->execute([$subject, $fromUID, $corrID]);
+    $lastEmail = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $lastEmail['m'];
 }
 
 function extractUnread($uID) {
