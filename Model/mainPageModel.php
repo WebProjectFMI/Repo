@@ -2,7 +2,7 @@
 
 function extractUserCorrs($uID) {
     require '../Model/dbConfig.php';
-    $stmt = $connection->prepare("SELECT * FROM Correspondences JOIN CorrUsers ON Correspondences.corrID=CorrUsers.corrID WHERE CorrUsers.uid=?");
+    $stmt = $connection->prepare("SELECT * FROM Correspondences JOIN CorrUsers ON Correspondences.corrID=CorrUsers.corrID WHERE CorrUsers.uid=? ORDER BY Correspondences.datetimeLast DESC");
     $stmt->execute([$uID]);
 
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -11,7 +11,19 @@ function extractUserCorrs($uID) {
 
 function extractCorrEmails($corrID) {
     require '../Model/dbConfig.php';
-    $stmt = $connection->prepare("SELECT * FROM Emails WHERE corrID=? ORDER BY emailID DESC");
+    // $stmt = $connection->prepare("SELECT * FROM Emails e JOIN CorrUsers c ON e.corrID=c.corrID WHERE c.uID=?  AND e.emailID NOT IN (SELECT emailID FROM ReadEmails as re WHERE re.corrID=e.corrID AND re.uID=?);");
+    // $stmt->execute([$uID, $uID]);
+
+    // $toBeRead = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // foreach ($toBeRead as $email){
+    //     stmt = $connection->prepare("INSERT INTO ReadEmails(corrID, emailID, uID) VALUES(?, ?, ?)");
+    //     $stmt->execute([$corrID, $email['emailID'], $email[]]);
+    // }
+
+    $stmt = $connection->prepare("SELECT * FROM Emails as e 
+        JOIN Users as u ON e.fromUID=u.uID 
+        JOIN CorrUsers as cu on e.fromUID=cu.uID AND cu.corrID=e.corrID
+        WHERE e.corrID=? ORDER BY e.emailID DESC");
     $stmt->execute([$corrID]);
 
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -22,6 +34,8 @@ function insertEmail($corrID, $fromUID, $subject, $content) {
     require '../Model/dbConfig.php';
     $stmt = $connection->prepare("INSERT INTO Emails(corrID, fromUID, subject, content) VALUES(?,?,?,?)");
     $stmt->execute([$corrID, $fromUID, $subject, $content]);
+    $stmt = $connection->prepare("UPDATE Correspondences SET datetimeLast=NOW() WHERE corrID=?");
+    $stmt->execute([$corrID]);
 }
 
 function extractUnread($uID) {

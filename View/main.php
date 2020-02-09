@@ -1,282 +1,139 @@
+<?php
+require '../Controller/mainPageController.php';
+
+session_start();
+if (!isset($_SESSION['uid'])) {
+    header("Location: ./login.php");
+}
+$uID = $_SESSION['uid'];
+$username = $_SESSION['username'];
+$unreadEmails = getUnread($uID);
+$numUnreadEmails = count($unreadEmails);
+
+$unreadCorrs = [];
+foreach ($unreadEmails as $unreadEmail) {
+    if (!in_array($unreadEmail['corrID'], $unreadCorrs)) {
+        array_push($unreadCorrs, $unreadEmail['corrID']);
+    }
+}
+
+$corrs = getUserCorrs($uID);
+
+print <<< HTML
 <!DOCTYPE html>
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Document</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: sans-serif;
-        }
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>MILfin ($numUnreadEmails)</title>
 
-        body {
-        }
-
-        .header {
-            background-color: #7acf05;
-            padding: 2%;
-            text-align: right;
-            font-size: 16px;
-            color: white;
-            height: 9vh;
-        }
-
-        .navigation {
-            height: 40px;
-            padding-top: 10px;
-            padding-left: 10px;
-            overflow: hidden;
-        }
-
-        .correspondences {
-            float: left;
-            padding: 20px;
-        }
-
-        .navigation, .correspondences {
-            width: 30%;
-            background: #ccc;
-        }
-
-        .correspondences ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .correspondences ul li {
-            list-style-type: none;
-            text-align: center;
-            cursor: pointer;
-            padding: 9px;
-        }
-
-        .emailContent {
-            float: right;
-            width: 70%;
-            padding: 5%;
-            background-color: #f4f6ef;
-            text-align: justify;
-        }
-
-        .correspondences, .emailContent {
-            height: 85vh;
-            overflow: auto;
-        }
-
-        .emailContent .receivedMessage {
-            text-align: left;
-        }
-
-        .emailContent .sentMessage {
-            text-align: right;
-        }
-
-    </style>
+    <script src="main.js"></script>
 </head>
 <body>
-<dev>
     <header class="header">
-        <div>username</div>
+        <div>$username</div>
+        <form action='./processLogout.php' method='post'>
+            <button>Излез</button>
+        </form>
     </header>
-
-    <nav class="navigation">
+    <div id="addCorr">
         <button type="button" onclick="alert('Нова кореспонденция')">Нова кореспонденция</button>
+    </div>
+    <div id='navMain'>
+    <nav>
+        <ul>
+HTML;
+
+foreach ($corrs as $corr) {
+    $corrID = $corr['corrID'];
+    $corrTitle = $corr['title'];
+    $isUnread = '';
+    if (in_array($corrID, $unreadCorrs)) {
+        $isUnread = 'unread';
+    }
+    echo "<li class='corr $isUnread' id='$corrID'>
+            <form id='form$corrID' method='post' action='./main.php'>
+            <input type='hidden' name='corrID' value='$corrID'>
+            <input type='hidden' name='title' value='$corrTitle'>
+            </form>
+            <div onclick=\"document.getElementById('form$corrID').submit();\">$corrTitle</div>
+        </li>";
+}
+
+$corrID = 0;
+$corrTitle = '';
+if (!isset($_POST['corrID'])) {
+    if (count($corrs) > 0) {
+        $corrID = $corrs[0]['corrID'];
+        $corrTitle = $corrs[0]['title'];
+    }
+}
+else {
+    $corrID = $_POST['corrID'];
+    $corrTitle = $_POST['title'];
+}
+
+$emails = [];
+if ($corrID) {
+    $emails = getCorrEmails($corrID, $uID);
+}
+
+print <<< HTML
+        </ul>
     </nav>
+    <main>
+        <h2>$corrTitle</h2>
+HTML;
 
-    <section>
-        <nav class="correspondences">
-            <ul>
-                <li aria-selected="true">
-                    <div onclick="alert('Имейл')">Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-                <li>
-                    <div>Кореспонденция1</div>
-                </li>
-            </ul>
-        </nav>
-        <main class="emailContent">
-            <div class="receivedMessage">
-                <p>Здравей, как си?</p>
-            </div>
-            <div class="sentMessage">
-                <p>Здравей, добре.</p>
-            </div>
-        </main>
-    </section>
+if ($corrID) {
+    echo "<div class='email sent'>
+            <form method='post' enctype='multipart/form-data' action='./processSendEmail.php'>
+                <input type='hidden' name='corrID' value='${corrID}'>
+                <input type='text' name='subject' placeholder='Тема' class='formSubject' required/>
+                <textarea rows='17' name='content' cols='60' placeholder='Съдържание'></textarea>
+                <div>
+                    <input type='file' name='file'/>
+                    <input type='submit' value='Изпрати'/>
+                </div>
+            <form>
+        </div>";
+}
 
-</dev>
+foreach($emails as $email) {
+    $emailSubject = $email['subject'];
+    $emailContent = $email['content'];
+    $emailDatetime = $email['datetime'];
+    $from = $email['username'];
+    if($email['fromUID'] == $uID) {
+        echo "<div class=\"email sent\">
+                <pre class='subject'>$emailSubject</pre>
+                <pre class='content'>$emailContent</pre>
+                <div class='emailSmallInfo'>
+                    <div>$emailDatetime</div>
+                    <div>$from</div>
+                </div>
+            </div>";
+    }
+    else {
+        if ($email['isAnonymous']) {
+            $from = 'Anonymous';
+        }
+        echo "<div class=\"email received\">
+                <pre class='subject'>$emailSubject</pre>
+                <pre class='content'>$emailContent</pre>
+                <div class='emailSmallInfo'>
+                    <div>$emailDatetime</div>
+                    <div>$from</div>
+                </div>
+            </div>";
+    }
+}
+
+print <<< HTML
+    </main>
+    </div>
 </body>
 </html>
+HTML;
+?>
