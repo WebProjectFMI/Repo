@@ -16,7 +16,7 @@ print <<< HTML
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Форма</title>
+    <title>MILfin</title>
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
