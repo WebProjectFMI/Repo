@@ -28,7 +28,16 @@ print <<< HTML
     <link rel="stylesheet" href="main.css">
     <title>MILfin ($numUnreadEmails)</title>
 
-    <script src="main.js"></script>
+    <script>
+        function newCorr() {
+          var corrSubject = document.getElementById("corrSubject");
+          var corrUsers = document.getElementById("corrUsers");
+          var corrCreate = document.getElementById("corrCreate");
+          corrSubject.style.display = "inline-block";
+          corrUsers.style.display = "inline-block";
+          corrCreate.style.display = "inline-block";
+        }
+    </script>
 </head>
 <body>
     <header class="header">
@@ -47,7 +56,10 @@ print <<< HTML
     </form>
     </header>
     <div id="addCorr">
-        <button type="button" onclick="alert('Нова кореспонденция')">Нова кореспонденция</button>
+        <button type="button" onclick="newCorr()">Нова кореспонденция</button>
+        <input type='text' name='subjectCorr' placeholder='Тема' id='corrSubject' required/>
+        <input type='text' name='usersCorr' placeholder='Потребители' id='corrUsers' required/>
+        <button type="button" onclick="alert('Нова кореспонденция')" id='corrCreate'>&gt</button>
     </div>
     <div id='navMain'>
     <nav>

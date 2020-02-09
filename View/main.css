@@ -23,8 +23,12 @@
 }
 
 #addCorr {
-    width: 35%;
+    width: 40%;
     background: #ccc;
+}
+
+#addCorr > #corrSubject, #addCorr > #corrUsers, #addCorr > #corrCreate{
+    display: none;
 }
 
 #navMain {
