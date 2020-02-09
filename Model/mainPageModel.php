@@ -9,16 +9,16 @@ function extractUserCorrs($uID) {
     return $result;
 }
 
-function extractCorrEmails($corrID) {
+function extractCorrEmails($corrID, $uID) {
     require '../Model/dbConfig.php';
-    // $stmt = $connection->prepare("SELECT * FROM Emails e JOIN CorrUsers c ON e.corrID=c.corrID WHERE c.uID=?  AND e.emailID NOT IN (SELECT emailID FROM ReadEmails as re WHERE re.corrID=e.corrID AND re.uID=?);");
-    // $stmt->execute([$uID, $uID]);
+    $stmt = $connection->prepare("SELECT * FROM Emails e JOIN CorrUsers c ON e.corrID=c.corrID AND c.corrID =? WHERE c.uID=?  AND e.emailID NOT IN (SELECT emailID FROM ReadEmails as re WHERE re.corrID=e.corrID AND re.uID=?);");
+    $stmt->execute([$corrID, $uID, $uID]);
 
-    // $toBeRead = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // foreach ($toBeRead as $email){
-    //     stmt = $connection->prepare("INSERT INTO ReadEmails(corrID, emailID, uID) VALUES(?, ?, ?)");
-    //     $stmt->execute([$corrID, $email['emailID'], $email[]]);
-    // }
+    $toBeRead = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($toBeRead as $email){
+        $stmt = $connection->prepare("INSERT INTO ReadEmails(corrID, emailID, uID) VALUES(?, ?, ?)");
+        $stmt->execute([$corrID, $email['emailID'], $uID]);
+    }
 
     $stmt = $connection->prepare("SELECT * FROM Emails as e 
         JOIN Users as u ON e.fromUID=u.uID 

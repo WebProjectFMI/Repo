@@ -7,7 +7,7 @@ function getUserCorrs($uID) {
 
 function getCorrEmails($corrID, $uID) {
     if (belongsUserCorr($uID, $corrID)) {
-        return extractCorrEmails($corrID);
+        return extractCorrEmails($corrID, $uID);
     }
     return [];
 }
